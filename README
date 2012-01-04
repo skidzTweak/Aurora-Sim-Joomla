@@ -73,7 +73,7 @@ How to install Stardust components:
 8. mod_stardust_land
 9. Go to your arical manager under “Content/Artile Manager”
 10. Create a 3 new Articles, *Stardust Currency History, *Purchase Island, and *Purchase currency
-11. Add your articals as links in the main menu under “Menus/Main Menu”
+11. Add your articles as links in the main menu under “Menus/Main Menu”
 12. Go to “Extension/Modules”
 13. Locate the 3 modules and enable them, and fill out the paramaters. For details on the correct values for each of the paramaters please see Stardust documentation. Notification URLs, and Return URLs should be pointed to the page you made for stardust purchase currency page.
 14. If you have any questions, or concerns or you would like to contribute please feel free to contant me.
