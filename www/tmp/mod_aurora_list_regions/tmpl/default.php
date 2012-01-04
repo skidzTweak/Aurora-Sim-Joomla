@@ -61,7 +61,7 @@ if(defined('_JEXEC')){
 						</td>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>?AStart=0&amp;ALimit=100&amp;" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW100'); ?>">
-								<img SRC="modules/mod_aurora_list_regions/icons/<? if($ALimit != 100) echo icon_limit_100_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="<?php echo JText::_('PAGINATION_TOOLTIPS_LIMIT100'); ?>" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 100) echo icon_limit_100_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="<?php echo JText::_('PAGINATION_TOOLTIPS_LIMIT100'); ?>" />
 							</a>
 						</td>
 					</tr>
