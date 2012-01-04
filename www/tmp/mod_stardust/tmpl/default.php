@@ -1,4 +1,14 @@
 <?php defined('_JEXEC') or die('Restricted access'); // no direct access ?>
+<?
+//get live_site
+if(defined('_JEXEC')){
+   //joomla 1.5               
+   $live_site = JURI::root();               
+}else{
+   //joomla 1.0.x
+   $live_site = $mosConfig_live_site;
+}
+?>
 <?php echo JText::_('CURRENCY HISTORY'); ?>
 	<table width="100%">
 		<tr>
@@ -11,12 +21,12 @@
 					<tr>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=<?=$ALimit?>" target="_self">
-								<img SRC=/modules/mod_aurora_list_regions/icons/icon_back_more_<? if(0 > ($AStart - $ALimit)) echo off; else echo on ?>.gif WIDTH=15 HEIGHT=15 border="0" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_back_more_<? if(0 > ($AStart - $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=<? if(0 > ($AStart - $ALimit)) echo 0; else echo $AStart - $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
-								<img SRC=/modules/mod_aurora_list_regions/icons/icon_back_one_<? if(0 > ($AStart - $ALimit)) echo off; else echo on ?>.gif WIDTH=15 HEIGHT=15 border="0" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_back_one_<? if(0 > ($AStart - $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td>
@@ -24,33 +34,33 @@
 						</td>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=<? if($count <= ($AStart + $ALimit)) echo 0; else echo $AStart + $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
-								<img SRC=/modules/mod_aurora_list_regions/icons/icon_forward_one_<? if($count <= ($AStart + $ALimit)) echo off; else echo on ?>.gif WIDTH=15 HEIGHT=15 border="0" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_forward_one_<? if($count <= ($AStart + $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=<? if(0 > ($count <= ($AStart + $ALimit))) echo 0; else echo ($sitemax - 1) * $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
-								<img SRC=/modules/mod_aurora_list_regions/icons/icon_forward_more_<? if($count <= ($AStart + $ALimit)) echo "off"; else echo "on" ?>.gif WIDTH=15 HEIGHT=15 border="0" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_forward_more_<? if($count <= ($AStart + $ALimit)) echo "off"; else echo "on" ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td></td>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=10&amp;" target="_self">
-								<img SRC=/modules/mod_aurora_list_regions/icons/<? if($ALimit != 10) echo icon_limit_10_on; else echo icon_limit_off; ?>.gif WIDTH=15 HEIGHT=15 border="0" ALT="Limit 10" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 10) echo icon_limit_10_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 10" />
 							</a>
 						</td>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=25&amp;" target="_self">
-								<img SRC=/modules/mod_aurora_list_regions/icons/<? if($ALimit != 25) echo icon_limit_25_on; else echo icon_limit_off; ?>.gif WIDTH=15 HEIGHT=15 border="0" ALT="Limit 25" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 25) echo icon_limit_25_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 25" />
 							</a>
 						</td>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=50&amp;" target="_self">
-								<img SRC=/modules/mod_aurora_list_regions/icons/<? if($ALimit != 50) echo icon_limit_50_on; else echo icon_limit_off; ?>.gif WIDTH=15 HEIGHT=15 border="0" ALT="Limit 50" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 50) echo icon_limit_50_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 50" />
 							</a>
 						</td>
 						<td>
 							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=100&amp;" target="_self">
-								<img SRC=/modules/mod_aurora_list_regions/icons/<? if($ALimit != 100) echo icon_limit_100_on; else echo icon_limit_off; ?>.gif WIDTH=15 HEIGHT=15 border="0" ALT="Limit 100" />
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 100) echo icon_limit_100_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 100" />
 							</a>
 						</td>
 					</tr>
