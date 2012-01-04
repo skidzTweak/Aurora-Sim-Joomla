@@ -141,7 +141,7 @@ class plgUserAurora extends JPlugin {
 					
 					if ($_POST['password'] == $_POST['password2'])
 					{
-						$result = GetUserUUID($user);
+						$result = $this->GetUserUUID($user);
 
 						if ($result) 
 						{
@@ -155,7 +155,7 @@ class plgUserAurora extends JPlugin {
 					
 					if ($_POST['password1'] == $_POST['password2'])
 					{
-						$result = GetUserUUID($user);
+						$result = $this->GetUserUUID($user);
 						if ($result) 
 						{
 							$this->ChangePassword($result, $_POST['password1']);
@@ -202,7 +202,7 @@ class plgUserAurora extends JPlugin {
 		$found[0] = json_encode(array('Method' => 'ChangePassword2', 'WebPassword' => md5($aconfig['webui_password']), 'UUID' => $uuid, 'Password' => $password));
 		$do_post_requested = $this->do_post_request($found);
 		$recieved = json_decode($do_post_requested);
-		$returnValue = $recieved->{'Verified'} != "False";
+		$returnValue = $recieved->{'Verified'} == 1;
 		return $returnValue;
 	}
 	
@@ -212,7 +212,7 @@ class plgUserAurora extends JPlugin {
 		
 		$aconfig = $this->GetConfigSettings();
 
-		$result = $GetUserUUID($user);
+		$result = $this->GetUserUUID($user);
 
 		if ($result) 
 		{
@@ -222,7 +222,7 @@ class plgUserAurora extends JPlugin {
 			$do_post_requested = $this->do_post_request($found);
 			$recieved = json_decode($do_post_requested);
 			
-			$returnValue = $recieved->{'Verified'} != "False";	
+			$returnValue = $recieved->{'Verified'} == 1;	
 		}
 		return $returnValue;
 	}
@@ -240,7 +240,7 @@ class plgUserAurora extends JPlugin {
 		$do_post_requested = $this->do_post_request($found);
 		$recieved = json_decode($do_post_requested);
 
-		$returnValue = $recieved->{'Verified'} != "False";	
+		$returnValue = $recieved->{'Verified'} == 1;	
 		if ($returnValue)
 		{
 			$this->currentUser["uuid"] = $recieved->{'UUID'};
@@ -320,7 +320,7 @@ class plgUserAurora extends JPlugin {
 			// var_dump($do_post_requested);
 			// echo '</pre>';
 
-			if ($recieved->{'Verified'} == "true") 
+			if ($recieved->{'Verified'} == 1) 
 			{
 				return $this->CreateAuroraJoomlaLink($recieved->{'UUID'}, $user["id"]);
 			}

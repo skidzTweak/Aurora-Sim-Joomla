@@ -42,21 +42,17 @@ How to install main components:
 4. From the package, open the folder www and copy everything in it to your joomla directory.
 5. Login to your Joomla administrator page
 6. Go to “Extensions/Install/Uninstall”
-7. Under the section “Install from URL” type in the follow URL and install http://www.NewWorldz.com/com_aurora-sim.zip
-7. OR under the section “Install from Directory” add the folder name com_aurora-sim
+7. under the section “Install from Directory” add the folder name com_aurora-sim
 8. Go to “Components/Aurora-Sim World!”
 9. Edit the default entry and fill it in with your grid information and save. These values should refect what you would place in the WebUI Setting file if you set up the WebUI.
 10. Go back to “Extensions/Install/Uninstall”
-11. Under the section “Install from URL” type in the follow URL and install http://www.NewWorldz.com/plgAuthAurora.zip
-11. OR under the section “Install from Directory” add the folder name plgAuthAurora
-12. Again under the section “Install from URL” type in the follow URL and install http://www.NewWorldz.com/plgUserAurora.zip
-12. OR under the section “Install from Directory” add the folder name plgUserAurora
+11. under the section “Install from Directory” add the folder name plgAuthAurora
+12. under the section “Install from Directory” add the folder name plgUserAurora
 13. Goto “Extensions/Plugin Manager”
 14. Located the plugin "Authentication - AuroraSim” and enable it
 15. Located the plugin “User - Aurora” and enable it
 16. Go back to “Extensions/Install/Uninstall”
-17. Under the section “Install from URL” type in the follow URL and install http://www.NewWorldz.com/mod_aurora_list_regions.zip
-17. OR under the section “Install from Directory” add the folder name mod_aurora_list_regions
+17. under the section “Install from Directory” add the folder name mod_aurora_list_regions
 18. Go to your arical manager under “Content/Artile Manager”
 19. Create a new Article, this is the page that the region list will be displayed
 20. Add your new Region list artical as a link in the main menu under “Menus/Main Menu”
@@ -71,10 +67,10 @@ How to install Stardust components:
 2. Run the Stardust WebUI “SQL” files in the same database as Aurora-Sim
 3. Login to your Joomla administrator page
 4. Go to “Extensions/Install/Uninstall”
-5. Under the section “Install from URL” type in the follow URLs and install OR use “Install from Directory” 
-6. http://www.NewWorldz.com/mod_stardust.zip OR mod_stardust
-7. http://www.NewWorldz.com/mod_stardust_purchase.zip OR mod_stardust_purchase
-8. http://www.NewWorldz.com/mod_stardust_land.zip OR mod_stardust_land
+5. Under the section “Install from Directory” type in the follow folders
+6. mod_stardust
+7. mod_stardust_purchase
+8. mod_stardust_land
 9. Go to your arical manager under “Content/Artile Manager”
 10. Create a 3 new Articles, *Stardust Currency History, *Purchase Island, and *Purchase currency
 11. Add your articals as links in the main menu under “Menus/Main Menu”

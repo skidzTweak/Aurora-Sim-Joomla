@@ -103,7 +103,6 @@ class plgAuthenticationAuroraSim extends JPlugin
 		}
 		else
 		{
-		
 			$db =& JFactory::getDBO();
 			$query = 'SELECT `joomla_userid`'
 				. ' FROM #__aurorasim_user'
@@ -188,7 +187,7 @@ class plgAuthenticationAuroraSim extends JPlugin
 		$do_post_requested = $this->do_post_request($found);
 		$recieved = json_decode($do_post_requested);
 
-		$returnValue = $recieved->{'Verified'} != "False";	
+		$returnValue = $recieved->{'Verified'} == 1;	
 		
 		return $returnValue;
 	}
@@ -247,7 +246,7 @@ class plgAuthenticationAuroraSim extends JPlugin
 			// var_dump($do_post_requested);
 			// echo '</pre>';
 
-			if ($recieved->{'Verified'} == "true") 
+			if ($recieved->{'Verified'} == 1) 
 			{
 				return $this->CreateAuroraJoomlaLink($recieved->{'UUID'}, $user["id"]);
 			}
@@ -349,7 +348,7 @@ class plgAuthenticationAuroraSim extends JPlugin
 
 		$UUIDC = $recieved->{'UUID'};
 
-		if ($recieved->{'Verified'} == "true") 
+		if ($recieved->{'Verified'} == 1) 
 		{	
 			$returnValue['USERID'] = $UUIDC;
 			$returnValue['NAME'] = $recieved->{'FirstName'} . ' ' . $recieved->{'LastName'};
