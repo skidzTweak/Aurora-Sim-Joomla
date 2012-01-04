@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="user">
 	<name>User - Aurora</name>
-	<author>Joomla! Project</author>
-	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+	<author>Skidz Tweak</author>
+	<creationDate>1/4/2012</creationDate>
+	<copyright>Copyright (C) 2010 - 2012 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0</version>
+	<authorEmail>skidz.tweak_@_gmail.com</authorEmail>
+	<authorUrl>www.SkidzPartz.com</authorUrl>
+	<version>1.1</version>
 	<description>An aurora user synchronisation plugin</description>
 	<files>
 		<filename plugin="aurora">aurora.php</filename>

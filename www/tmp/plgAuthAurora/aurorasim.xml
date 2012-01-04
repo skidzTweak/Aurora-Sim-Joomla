@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="authentication">
     <name>Authentication - AuroraSim</name>
-    <author>Joomla! Documentation Project</author>
-    <creationDate>May 30, 2007</creationDate>
-    <copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>
+    <author>Skidz Tweak</author>
+    <creationDate>1/4/12</creationDate>
+    <copyright>(C) 2010 - 20012 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <authorEmail>ian.maclennan@help.joomla.org</authorEmail>
-    <authorUrl>www.joomla.org</authorUrl>
-    <version>1.5</version>
-    <description>An sample authentication plugin</description>
+    <authorEmail>skidz.tweak_@_gmail.com</authorEmail>
+    <authorUrl>www.skidzpartz.com</authorUrl>
+    <version>1.51</version>
+    <description>Aurora Sim authentication</description>
     <files>
         <filename plugin="aurorasim">aurorasim.php</filename>
     </files>
