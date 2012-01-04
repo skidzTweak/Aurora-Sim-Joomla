@@ -22,7 +22,7 @@
 	<authorUrl>www.SkidzPartz.com</authorUrl> 
  
     <!-- Module version number -->
-	<version>1.0.0</version> 
+	<version>1.0.1</version> 
  
     <!-- Description of what the module does -->
 	<description>List Regions module</description>
