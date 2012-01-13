@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install type="module" version="1.5.1">
     <!-- Name of the Module -->
 	<name>Aurora - Stardust</name> 
  
@@ -22,7 +22,7 @@
 	<authorUrl>www.NewWorldz.com</authorUrl> 
  
     <!-- Module version number -->
-	<version>1.0.1</version> 
+	<version>1.5.1</version> 
  
     <!-- Description of what the module does -->
 	<description>Stardust currency module for aurora</description>
@@ -45,12 +45,5 @@
 	<params>
         <!-- parameter to allow placement of a module class suffix for the module table / xhtml display -->
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
- 
-        <!-- just gives us a little room between the previous parameter and the next -->
-		<param name="@spacer" type="spacer" default="" label="" description="" />
- 
-        <!-- A parameter that allows an administrator to modify the number of users that this module will display -->
-        <param name="usercount" type="text" default="5" label="LABEL USER COUNT" description="DESC USER COUNT" />
     </params>
-
 </install>

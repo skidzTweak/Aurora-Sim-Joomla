@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.5" type="plugin" group="authentication">
+<install version="1.5.1" type="plugin" group="authentication">
     <name>Authentication - AuroraSim</name>
     <author>Skidz Tweak</author>
-    <creationDate>1/4/12</creationDate>
-    <copyright>(C) 2010 - 20012 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <authorEmail>skidz.tweak_@_gmail.com</authorEmail>
-    <authorUrl>www.skidzpartz.com</authorUrl>
-    <version>1.51</version>
-    <description>Aurora Sim authentication</description>
+	<creationDate>Oct 30, 2011</creationDate>
+	<copyright>Copyright (C) 2011 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>robert.skidmore@newworldz.com</authorEmail>
+	<authorUrl>NewWorldz.com</authorUrl>
+	<version>1.5.1</version>
+    <description>An sample authentication plugin</description>
     <files>
         <filename plugin="aurorasim">aurorasim.php</filename>
     </files>

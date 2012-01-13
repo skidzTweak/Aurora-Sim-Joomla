@@ -1,5 +1,22 @@
 <?php defined('_JEXEC') or die('Restricted access'); // no direct access ?>
 <?
+function curPageURL2() {
+	$pageURL = 'http';
+	if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+	$pageURL .= "://";
+	if ($_SERVER["SERVER_PORT"] != "80") {
+		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+	} else {
+		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+	}
+	if ($_GET['option'] != '')
+	{
+		$pageURL = strtok($pageURL,'?');
+		$pageURL = $pageURL . "?option=" . $_GET['option'] . "&view=" . $_GET["view"] . "&id=" . $_GET['id'] . "&Itemid=" . $_GET['Itemid'];
+	}
+	return $pageURL;
+}
+
 //get live_site
 if(defined('_JEXEC')){
    //joomla 1.5               
@@ -20,12 +37,12 @@ if(defined('_JEXEC')){
 				<table>
 					<tr>
 						<td>
-							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=<?=$ALimit?>" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=<?=$ALimit?>" target="_self">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_back_more_<? if(0 > ($AStart - $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=<? if(0 > ($AStart - $ALimit)) echo 0; else echo $AStart - $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=<? if(0 > ($AStart - $ALimit)) echo 0; else echo $AStart - $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_back_one_<? if(0 > ($AStart - $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
@@ -33,33 +50,33 @@ if(defined('_JEXEC')){
 						  	<? echo $webui_navigation_page; ?> <?=$sitestart ?> <?php echo JText::_('Of'); ?> <?=$sitemax ?>
 						</td>
 						<td>
-							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=<? if($count <= ($AStart + $ALimit)) echo 0; else echo $AStart + $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=<? if($count <= ($AStart + $ALimit)) echo 0; else echo $AStart + $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_forward_one_<? if($count <= ($AStart + $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=<? if(0 > ($count <= ($AStart + $ALimit))) echo 0; else echo ($sitemax - 1) * $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=<? if(0 > ($count <= ($AStart + $ALimit))) echo 0; else echo ($sitemax - 1) * $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_forward_more_<? if($count <= ($AStart + $ALimit)) echo "off"; else echo "on" ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td></td>
 						<td>
-							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=10&amp;" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=10&amp;" target="_self">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 10) echo icon_limit_10_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 10" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=25&amp;" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=25&amp;" target="_self">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 25) echo icon_limit_25_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 25" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=50&amp;" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=50&amp;" target="_self">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 50) echo icon_limit_50_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 50" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>&AStart=0&amp;ALimit=100&amp;" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=100&amp;" target="_self">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 100) echo icon_limit_100_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 100" />
 							</a>
 						</td>

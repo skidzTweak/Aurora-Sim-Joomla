@@ -103,6 +103,7 @@ class plgAuthenticationAuroraSim extends JPlugin
 		}
 		else
 		{
+		
 			$db =& JFactory::getDBO();
 			$query = 'SELECT `joomla_userid`'
 				. ' FROM #__aurorasim_user'
@@ -151,7 +152,7 @@ class plgAuthenticationAuroraSim extends JPlugin
 		if ($configCount == 0)
 		{
 			$db =& JFactory::getDBO();
-			$query = 'SELECT `webui_gridname`, `webui_url`, `webui_texture_url`, `webui_password`, `isdefault`, `aurora_database_type`, `aurora_database_host`, `aurora_database_name`, `aurora_database_user`, `aurora_database_pass` '
+			$query = 'SELECT `webui_gridname`, `webui_url`, `webui_texture_url`, `webui_password`, `isdefault`'
 				. ' FROM #__aurorasim'
 				. ' WHERE isdefault = 1' ;
 			$db->setQuery( $query );
@@ -162,17 +163,16 @@ class plgAuthenticationAuroraSim extends JPlugin
 			$this->configSettings['webui_texture_url'] = $results['2'];
 			$this->configSettings['webui_password'] = $results['3'];
 			$this->configSettings['isdefault'] = $results['4'];
-			$this->configSettings['aurora_database_type'] = $results['5'];
-			$this->configSettings['aurora_database_host'] = $results['6'];
-			$this->configSettings['aurora_database_name'] = $results['7'];
-			$this->configSettings['aurora_database_user'] = $results['8'];
-			$this->configSettings['aurora_database_pass'] = $results['9'];
 		}
+		
 		// echo '<pre>';
 		// var_dump($this->configSettings);
 		// var_dump($results);
 		// echo '</pre>';
 		// throw new Exception("Problem with nothing.. just testing");
+		
+		
+		
 		return $this->configSettings;
 	}
 	

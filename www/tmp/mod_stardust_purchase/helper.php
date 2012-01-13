@@ -3,6 +3,45 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
  
 class ModStarDust_PurchaseHelper
 {
+
+	function IPNValidation($STARDUST_SERVICE_URL, $NOTIFICATION_EMAIL, $DO_NOTIFICATION)
+	{
+		$returnValue = array();
+		$returnValue[0] = "1";
+		$req = "";
+		
+		foreach ($_POST as $key => $value) 
+		{
+			$value = urlencode(stripslashes($value));
+			$req .= "&$key=$value";
+		}
+		
+		$aconfig =  ModStarDust_PurchaseHelper::GetConfigSettings();
+		$found = array();
+		$found[0] = json_encode(array_merge (array('Method' => 'IPNData', 'WebPassword' => md5($aconfig['webui_password']), 'req' => $req), $_POST));
+		$do_post_request = ModStarDust_PurchaseHelper::do_post_request($found, $STARDUST_SERVICE_URL);
+		$recieved = json_decode($do_post_request);
+
+		// echo '<pre>';
+		// var_dump($recieved);
+		// var_dump($do_post_requested);
+		// echo '</pre>';
+
+		if ($recieved->{'Verified'} == "True") 
+		{
+			if ($DO_NOTIFICATION == "1")
+			{
+				ModStarDust_PurchaseHelper::SendEmailIPN($recieved);
+			}
+		}
+		else
+		{
+			ModStarDust_PurchaseHelper::SendErrorEmailIPN($recieved);
+		}
+		return $recieved;
+	}
+
+
 	function checkItems($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION)
 	{
 		$returnValue = array();
@@ -18,20 +57,65 @@ class ModStarDust_PurchaseHelper
 		// var_dump($recieved);
 		// var_dump($do_post_requested);
 		// echo '</pre>';
-
-		if ($recieved->{'Verified'} == "True") 
+		
+		$isDoneAlready = ($recieved->{'CompleteType'} == "ALREADYDONE");
+		if ($recieved->{'Verified'}) 
 		{
 			$returnValue[0] = "2";
 			$returnValue[1] = $recieved;
-			if ($DO_NOTIFICATION == "1")
+			if (($DO_NOTIFICATION == "1") && (!$isDoneAlready))
 			{
-			
+				ModStarDust_PurchaseHelper::SendEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $recieved);
 			}
 		}
 		else
 		{
 			ModStarDust_PurchaseHelper::SendErrorEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $recieved);
 		}
+		return $returnValue;
+	}
+	
+	function SendEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $recieved)
+	{
+		$mailer =& JFactory::getMailer();
+		$config =& JFactory::getConfig();
+		
+		$sender = array( 
+			$config->getValue( 'config.mailfrom' ),
+			$config->getValue( 'config.fromname' ) );
+		 
+		$mailer->setSender($sender);
+		$mailer->addRecipient($NOTIFICATION_EMAIL);
+		$body   = "A purchase is complete. Details:".
+			$recieved.
+			"\ntx=".$tx.
+			"\nst=".$st.
+			"\namt=".$amt.
+			"\ncc=".$cc.
+			"\ncm=".$cm.
+			"\nitem_number=".$item_number;
+		$mailer->setSubject('Stardust purchase');
+		$mailer->setBody($body);
+		$send =& $mailer->Send();
+	}
+	
+	function SendEmailIPN($recieved)
+	{
+		$mailer =& JFactory::getMailer();
+		$config =& JFactory::getConfig();
+		
+		$sender = array( 
+			$config->getValue( 'config.mailfrom' ),
+			$config->getValue( 'config.fromname' ) );
+		 
+		$mailer->setSender($sender);
+		$mailer->addRecipient($NOTIFICATION_EMAIL);
+		$body   = "A purchase is complete. Details:\n".
+			var_dump($recieved).
+			"\nPOST=".var_dump($_POST);
+		$mailer->setSubject('Stardust purchase');
+		$mailer->setBody($body);
+		$send =& $mailer->Send();
 	}
 	
 	function SendErrorEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $recieved)
@@ -54,6 +138,25 @@ class ModStarDust_PurchaseHelper
 			"\ncm=".$cm.
 			"\nitem_number=".$item_number;
 		$mailer->setSubject('Stardust Error purchase');
+		$mailer->setBody($body);
+		$send =& $mailer->Send();
+	}
+	
+	function SendErrorEmailIPN($recieved)
+	{
+		$mailer =& JFactory::getMailer();
+		$config =& JFactory::getConfig();
+		
+		$sender = array( 
+			$config->getValue( 'config.mailfrom' ),
+			$config->getValue( 'config.fromname' ) );
+		 
+		$mailer->setSender($sender);
+		$mailer->addRecipient($NOTIFICATION_EMAIL);
+		$body   = "A purchase is complete. Details:\n".
+			var_dump($recieved).
+			"\nPOST=".var_dump($_POST);
+		$mailer->setSubject('Stardust IDN purchase');
 		$mailer->setBody($body);
 		$send =& $mailer->Send();
 	}
@@ -109,9 +212,6 @@ class ModStarDust_PurchaseHelper
 				{
 					$returnValue[2] = "Currency Purchase of ".$recieved->{'Amount'};
 					$returnValue[3] = "_xclick";
-					
-					$_SESSION['paypalPurchaseItem'] = 
-					$_SESSION['purchase_type'] = 
 				}
 				else
 				{

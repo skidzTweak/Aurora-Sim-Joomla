@@ -9,7 +9,11 @@ require_once(dirname(__FILE__).DS.'helper.php');
 	$user =& JFactory::getUser();
 	
 	if ($user->guest) {
-		echo "<p>You must login to see the content. Please log in.</p>";
+		$loginURL = 'index.php?option=com_user&view=login';
+		$myurl = $_SERVER['REQUEST_URI'];
+		$myurl = base64_encode($myurl);
+		$myurl = '&return='.$myurl;
+		header("Location: ".$loginURL.$myurl);
 	} else { 
 		// get the items to display from the helper
 		$results = ModStarDustHelper::getItems($user);

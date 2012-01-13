@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install type="module" version="1.5.1">
     <!-- Name of the Module -->
 	<name>Aurora - Stardust Purchased</name> 
  
@@ -22,7 +22,7 @@
 	<authorUrl>www.NewWorldz.com</authorUrl> 
  
     <!-- Module version number -->
-	<version>1.0.0</version> 
+	<version>1.5.1</version> 
  
     <!-- Description of what the module does -->
 	<description>Stardust currency module for aurora</description>
@@ -56,13 +56,14 @@
         <param name="AmountAdditionPerfectage" type="text" default="2.91%" label="ADDITION PERCENTAGE" description="The additional percentage you charge. This does not actually effect anything, just tells the user in the FAQ." />
 		<param name="STARDUST_SERVICE_URL" type="text" default="http://10.19.44.9:8007/StarDustWebUI" label="STARDUST_SERVICE_URL" description="" />
 		<param name="PAYPAL_URL" type="text" default="www.paypal.com" label="PAYPAL_URL" description="" />
-		<param name="NOTIFY_URL" type="text" default="http://dev.gaysanfrancisco.us.com/app/StarDust/paypal_verify.php" label="NOTIFY_URL" description="" />
-		<param name="PAYPAL_ACCOUNT" type="text" default="DanWyand@aol.com" label="PAYPAL_ACCOUNT" description="" />
-		<param name="RETURN_URL" type="text" default="http://dev.gaysanfrancisco.us.com/index.php?page=paypalcomplete" label="RETURN_URL" description="" />
+		<param name="NOTIFY_URL" type="textarea" default="http://dev.gaysanfrancisco.us.com//index.php?option=com_content&amp;view=article&amp;id=90:how-to-buy-g&amp;catid=44:new-users&amp;Itemid=44" label="NOTIFY_URL" description="" />
+		<param name="PAYPAL_ACCOUNT" type="text" default="Robert.Skidmore@Gmail.com" label="PAYPAL_ACCOUNT" description="" />
+		<param name="RETURN_URL" type="textarea" default="http://dev.gaysanfrancisco.us.com/index.php?option=com_content&amp;view=article&amp;id=90:how-to-buy-g&amp;catid=44:new-users&amp;Itemid=44" label="RETURN_URL" description="" />
 		<param name="NOTIFICATION_EMAIL" type="text" default="someone@somwhere.com" label="NOTIFICATION_EMAIL" description="" />
 		<param name="DO_NOTIFICATION" type="radio" default="0" label="DO_NOTIFICATION" description="">
 		  <option value="1">Yes</option>
 		  <option value="0">No</option>
 		</param>
+		<param name="HOWTOBUY_DOC_LINK" type="textarea" default="/index.php?option=com_content&amp;view=article&amp;id=90:how-to-buy-g&amp;catid=44:new-users&amp;Itemid=44" label="HOWTOBUY_DOC_LINK" description="If someone goes to the currency page without a purchase id it will send them here to show them how to purchase the currency." />
     </params>
 </install>

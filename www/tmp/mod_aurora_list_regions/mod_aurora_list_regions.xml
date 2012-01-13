@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install type="module" version="1.5.1">
     <!-- Name of the Module -->
 	<name>Aurora - List Regions</name> 
  
@@ -16,13 +16,13 @@
 	<license>GPL 2.0</license> 
  
     <!-- Author's email address -->
-	<authorEmail>skidz.tweak_@_gmail.com</authorEmail> 
+	<authorEmail>Robert.Skidmore@NewWorldz.com</authorEmail> 
  
     <!-- Author's website -->
-	<authorUrl>www.SkidzPartz.com</authorUrl> 
+	<authorUrl>www.NewWorldz.com</authorUrl> 
  
     <!-- Module version number -->
-	<version>1.0.1</version> 
+	<version>1.5.1</version> 
  
     <!-- Description of what the module does -->
 	<description>List Regions module</description>

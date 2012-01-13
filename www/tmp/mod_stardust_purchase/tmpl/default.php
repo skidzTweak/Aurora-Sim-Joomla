@@ -1,5 +1,16 @@
 <?php defined('_JEXEC') or die('Restricted access'); // no direct access ?>
-<?php echo JText::_('CURRENCY PURCHASE'); ?>
+<?php 
+
+//get live_site
+if(defined('_JEXEC')){
+   //joomla 1.5               
+   $live_site = JURI::root();               
+}else{
+   //joomla 1.0.x
+   $live_site = $mosConfig_live_site;
+}
+
+?>
 <? if ($waserror == "2") { ?>
 	<table width="100%">
 		<tr>
@@ -25,11 +36,11 @@
 					</tr>
 					<tr class="odd">
 						<td><?php echo JText::_('YOU ARE BUYING'); ?></td>
-						<td><?=$_SESSION[paypalPurchaseItem]?></td>
+						<td><?=$paypalPurchaseItem?></td>
 					</tr>
 					<tr class="even">
 						<td><?php echo JText::_('YOU ARE PAYING'); ?></td>
-						<td>$<?=$_SESSION[paypalAmount]?> <?php echo JText::_('PAYMENT TYPE'); ?></td>
+						<td>$<?=$paypalAmount?> <?php echo JText::_('PAYMENT TYPE'); ?></td>
 					</tr>
 					<tr class="odd">
 						<?if ($recieved->{'PurchaseType'} == 1){?>
@@ -40,7 +51,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<a href="/send_to_paypal.php?PAYPAL_URL=<?=$PAYPAL_URL;?>&NOTIFY_URL=<?=$NOTIFY_URL;?>&PAYPAL_ACCOUNT=<?=$PAYPAL_ACCOUNT;?>&RETURN_URL=<?=$RETURN_URL;?>&paypalAmount=<?=$paypalAmount;?>&purchase_type=<?=$purchase_type;?>&paypalPurchaseItem=<?=$paypalPurchaseItem;?>&purchase_id=<?=$_SESSION['purchase_id'];?>"><img align="right" style="float:right" src="/modules/mod_stardust_purchase/images/paypal-purchase-button.png" /></a>
+							<a href="<?=$live_site?>send_to_paypal.php"><img align="right" style="float:right" src="<?=$live_site?>modules/mod_stardust_purchase/images/paypal-purchase-button.png" /></a>
 						</td>
 					</tr>
 					<tr>

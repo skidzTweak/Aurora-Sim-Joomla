@@ -1,4 +1,26 @@
 <?php defined('_JEXEC') or die('Restricted access'); // no direct access ?>
+<?
+function curPageURL() {
+	$pageURL = 'http';
+	if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+	$pageURL .= "://";
+	if ($_SERVER["SERVER_PORT"] != "80") {
+		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+	} else {
+		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+	}
+	return $pageURL;
+}
+
+//get live_site
+if(defined('_JEXEC')){
+   //joomla 1.5               
+   $live_site = JURI::root();               
+}else{
+   //joomla 1.0.x
+   $live_site = $mosConfig_live_site;
+}
+?>
 <table cellpadding="8" cellspacing="8">
 	<tr>
 		<td>
@@ -6,10 +28,10 @@
 			if (empty($submitted))
 			{
 				foreach ($items as $item) {?>
-					<form action="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>" >
+					<form action="<?=curPageURL()?>" method="post">
 						<div style=" width:85%; border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px; border-bottom-left-radius: 10px 10px; border-bottom-right-radius: 10px 10px; background-color: rgb(0, 0, 0);padding:10px 10px 10px 10px; ">
 							<h3>Name: <?=$item['name'] ?></h3> 
-							<p><img align="right" src="/modules/mod_stardust_land/images/SimImageStub.jpg" /><?=$item['description']?></p>
+							<p><img align="right" src="<?=$live_site?>modules/mod_stardust_land/images/SimImageStub.jpg" /><?=$item['description']?></p>
 							<input type="hidden" name="idx" value="<?=$item['id']?>" />
 							<input type="hidden" name="button_id" value="<?=$item['button_id']?>" />
 							<input type="Submit" name="submit" value="Get It for only <?=$item['price'] / 100.0 ?>" />
@@ -18,46 +40,49 @@
 					<br/>
 				<?}
 			}else{?>
-				<form action="<?=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);?>" name="thisform" id="thisform">
+				<form action="<?=curPageURL()?>" name="thisform" id="thisform" method="post">
 					<table width="100%">
 						<tr>
-							<td colspan="2" style="color:red;"><?=$error;?></td>
+							<td style="color:red;"><?=$error;?></td>
 						</tr>
 						<tr>
-							<td align="right"><?php echo JText::_('REGION NAME'); ?></td>
-							<td><input name="name" type="text" maxlength="36" value="<?=$_GET[name]?>"  /></td>
+							<td valign="top"><?php echo JText::_('REGION NAME'); ?></td>
 						</tr>
 						<tr>
-							<td colspan="2">
-								<?if ($_GET[error] != ''){?>
-									<div><?=$_GET[error]?></div>
+							<td><input name="name" type="text" maxlength="36" value="<?=$_POST[name]?>"  /></td>
+						</tr>
+						<tr>
+							<td  valign="top">
+								<?if ($_POST[error] != ''){?>
+									<div><?=$_POST[error]?></div>
 								<?}?>
 							</td>
 						</tr>						
 						<tr>
-							<td align="right" valign="top"><?php echo JText::_('ADDITIONAL NOTES'); ?></td>
-							<td><textarea name="notes" cols=50 rows=5 maxlength="1024"><?=$_GET[notes]?></textarea></td>
+							<td valign="top"><?php echo JText::_('ADDITIONAL NOTES'); ?></td>
 						</tr>
 						<tr>
-							<td valign="bottom" colspan="2">
+							<td><textarea name="notes" cols=30 rows=5 maxlength="1024"><?=$_POST[notes]?></textarea></td>
+						</tr>
+						<tr>
+							<td valign="bottom">
 								<?php echo JText::_('TERMS OF SERVICE'); ?>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
+							<td>
 								<div style="width:100%;height:100px;overflow:auto;"><?=$tos?></div>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
+							<td>
 								<input type="checkbox" name="agree" id="agree" value="1" /><label for="agree"><?php echo JText::_('I AGREE'); ?></label>
 							</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td>
 								<input type="submit" name="submit2" value="<?php echo JText::_('GET IT'); ?>" />
-								<input type="hidden" name="idx" value="<?=$_GET["idx"]?>" />
+								<input type="hidden" name="idx" value="<?=$_POST["idx"]?>" />
 							</td>
 						</tr>
 					</table>

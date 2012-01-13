@@ -6,11 +6,12 @@ class ModStarDust_LandHelper
 
 	function SendToPayPal($user, $PAYPAL_URL,$NOTIFY_URL,$PAYPAL_ACCOUNT,$RETURN_URL,$DO_NOTIFICATION,$NOTIFICATION_EMAIL,$STARDUST_SERVICE_URL)
 	{
+		$session =& JFactory::getSession();
 		$aconfig = ModStarDust_LandHelper::GetConfigSettings();
 		
 		$UUID = ModStarDust_LandHelper::GetUserUUID($user);
 		$found = array();
-		$found[0] = json_encode(array('Method' => 'OrderSubscription', 'WebPassword' => md5($aconfig['webui_password']), 'toId' => $UUID, 'regionName' => $_GET["name"], 'notes' => $_GET["notes"], 'subscription_id' => $_GET["idx"]));
+		$found[0] = json_encode(array('Method' => 'OrderSubscription', 'WebPassword' => md5($aconfig['webui_password']), 'toId' => $UUID, 'regionName' => $_POST["name"], 'notes' => $_POST["notes"], 'subscription_id' => $_POST["idx"]));
 		$do_post_request = ModStarDust_LandHelper::do_post_request($found, $STARDUST_SERVICE_URL);
 		$recieved = json_decode($do_post_request);
 		
@@ -24,8 +25,11 @@ class ModStarDust_LandHelper
 		{
 			$productInfo = ModStarDust_LandHelper::GetProductInfo($aconfig );
 			$pid = $recieved->{'purchaseID'};
-			echo "sending header";
-			header("Location: /send_to_paypal.php?purchase_type=_xclick-subscriptions&PAYPAL_URL=".$PAYPAL_URL."&paypalAmount=".$productInfo["price"]."&NOTIFY_URL=".$NOTIFY_URL."&PAYPAL_ACCOUNT=".$PAYPAL_ACCOUNT."&paypalPurchaseItem=".$productInfo["name"]."&purchase_id=".$pid."&RETURN_URL=".$RETURN_URL);
+			$session->set('paypalAmount', $productInfo["price"]);
+			$session->set('purchase_id', $pid);
+			$session->set('paypalPurchaseItem', $productInfo["name"]);
+			
+			header("Location: /send_to_paypal.php");
 			return "";
 		}
 		else
@@ -43,12 +47,12 @@ class ModStarDust_LandHelper
 
 	function ValidateForm()
 	{
-		if (empty($_GET["agree"]))
+		if (empty($_POST["agree"]))
 		{
 			return "You must agree with the Terms Of Service";
 		}
 		
-		if (empty($_GET["name"]))
+		if (empty($_POST["name"]))
 		{
 			return "You must name your Island";
 		}
@@ -75,7 +79,7 @@ class ModStarDust_LandHelper
 	function CheckSimExist1($option)
 	{
 		$db = &JDatabase::getInstance( $option );
-		$query = "SELECT count(*) FROM gridregions WHERE RegionName = '".$_GET[name]."'";
+		$query = "SELECT count(*) FROM gridregions WHERE RegionName = '".$_POST[name]."'";
 		$db->setQuery( $query );
 		$result = $db->loadResult();
 		return $result;
@@ -84,7 +88,7 @@ class ModStarDust_LandHelper
 	function CheckSimExist2($option)
 	{
 		$db = &JDatabase::getInstance( $option );
-		$query = "SELECT count(*) FROM stardust_purchased WHERE RegionName = '".$_GET[name]."' AND Complete = 1";
+		$query = "SELECT count(*) FROM stardust_purchased WHERE RegionName = '".$_POST[name]."' AND Complete = 1";
 		$db->setQuery( $query );
 		$result = $db->loadResult();
 		return $result;
@@ -100,7 +104,7 @@ class ModStarDust_LandHelper
 		$option['password'] = $aconfig['aurora_database_pass'];
 		
 		$db = &JDatabase::getInstance( $option );
-		$query = "SELECT name, price FROM stardust_subscriptions WHERE id = '".$_GET["idx"]."' AND active = 1";
+		$query = "SELECT name, price FROM stardust_subscriptions WHERE id = '".$_POST["idx"]."' AND active = 1";
 		$db->setQuery( $query );
 		$results = $db->loadRow();
 		$results2= array();
