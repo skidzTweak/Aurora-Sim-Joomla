@@ -103,10 +103,6 @@ namespace Aurora.Services
                 m_servernick = GridInfoConfig.GetString("gridnick", m_servernick);
             }
 
-            if (runLocally)
-            {
-                SetUpWebUIPHP(httpPort, phpBinPath);
-            }
 
             OSDMap gridInfo = new OSDMap();
             if (GridInfoConfig != null && (GridInfoConfig.GetString("gridname", "") != "" && GridInfoConfig.GetString("gridnick", "") != ""))
@@ -133,10 +129,7 @@ namespace Aurora.Services
             //            MainConsole.Instance.Commands.AddCommand("webui remove user", "Deprecated alias for webui demote user.", "webui remove user", DemoteUser);
         }
 
-        private void SetUpWebUIPHP(uint port, string phpBinPath)
-        {
-            HttpServer.HttpModules.AdvancedFileModule.CreateHTTPServer(Util.BasePathCombine("data//WebUI//"), "/", @phpBinPath, port, false);
-        }
+
 
         public void FinishedStartup()
         {
@@ -732,22 +725,21 @@ namespace Aurora.Services
             string Password = map["Password"].AsString();
 
             ILoginService loginService = m_registry.RequestModuleInterface<ILoginService>();
-            UUID secureSessionID;
+            IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
             UserAccount account = null;
             OSDMap resp = new OSDMap();
             resp["Verified"] = OSD.FromBoolean(false);
 
-            if (CheckIfUserExists(map)["Verified"] != true)
+            if (accountService == null || CheckIfUserExists(map)["Verified"] != true)
             {
                 return resp;
             }
 
-            LoginResponse loginresp = loginService.VerifyClient(Name, "UserAccount", Password, UUID.Zero, false, "", "", "", out secureSessionID);
-            //Null means it went through without an error
-            Verified = loginresp == null;
-            if (Verified)
+            account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, Name);
+
+            //Null means it went through without an errorz
+            if (loginService.VerifyClient(account.PrincipalID, Name, "UserAccount", Password, account.ScopeID))
             {
-                account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, Name);
                 if (asAdmin)
                 {
                     IAgentInfo agent = Aurora.DataManager.DataManager.RequestPlugin<IAgentConnector>().GetAgent(account.PrincipalID);
@@ -759,7 +751,6 @@ namespace Aurora.Services
                 resp["UUID"] = OSD.FromUUID(account.PrincipalID);
                 resp["FirstName"] = OSD.FromString(account.FirstName);
                 resp["LastName"] = OSD.FromString(account.LastName);
-                resp["Email"] = OSD.FromString(account.Email);
             }
 
             resp["Verified"] = OSD.FromBoolean(Verified);
@@ -863,16 +854,20 @@ namespace Aurora.Services
             string newPassword = map["NewPassword"].AsString();
 
             ILoginService loginService = m_registry.RequestModuleInterface<ILoginService>();
+            IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
             UUID secureSessionID;
             UUID userID = map["UUID"].AsUUID();
 
 
+
+            UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, userID);
+
+
             IAuthenticationService auths = m_registry.RequestModuleInterface<IAuthenticationService>();
 
-            LoginResponse loginresp = loginService.VerifyClient(userID, "UserAccount", Password, UUID.Zero, false, "", "", "", out secureSessionID);
             OSDMap resp = new OSDMap();
             //Null means it went through without an error
-            bool Verified = loginresp == null;
+            bool Verified = loginService.VerifyClient(account.PrincipalID, account.Name, "UserAccount", Password, account.ScopeID);
             resp["Verified"] = OSD.FromBoolean(Verified);
 
             if ((auths.Authenticate(userID, "UserAccount", Util.Md5Hash(Password), 100) != string.Empty) && (Verified))
@@ -1202,7 +1197,7 @@ namespace Aurora.Services
             return resp;
         }
 
-        
+
 
         #endregion
 
