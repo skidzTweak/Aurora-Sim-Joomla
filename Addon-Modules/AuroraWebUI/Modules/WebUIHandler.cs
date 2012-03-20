@@ -751,6 +751,7 @@ namespace Aurora.Services
                 resp["UUID"] = OSD.FromUUID(account.PrincipalID);
                 resp["FirstName"] = OSD.FromString(account.FirstName);
                 resp["LastName"] = OSD.FromString(account.LastName);
+				resp["Email"] = OSD.FromString(account.Email);
             }
 
             resp["Verified"] = OSD.FromBoolean(Verified);
