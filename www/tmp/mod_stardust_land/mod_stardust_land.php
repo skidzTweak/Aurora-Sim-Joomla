@@ -17,6 +17,8 @@ if ($user->guest)
 }
 else
 {
+	if (!isset($_POST["submit"])) $_POST["submit"] = "";
+	if (!isset($_POST["submit2"])) $_POST["submit2"] = "";
 	$submitted = $_POST["submit"];
 	$submitted2 = $_POST["submit2"];
 
