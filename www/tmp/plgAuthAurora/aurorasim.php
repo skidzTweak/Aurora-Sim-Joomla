@@ -92,10 +92,12 @@ class plgAuthenticationAuroraSim extends JPlugin
          */
 		$USERNAME = $credentials['username'];
 		$PASSWORD = $credentials['password'];
-		 
+		
+
+		
 		$auroraResponse = $this->login($USERNAME, $PASSWORD);
 		$arrayCount = count($auroraResponse);
-		
+
 		if ($arrayCount == 0) 
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
@@ -143,6 +145,7 @@ class plgAuthenticationAuroraSim extends JPlugin
 			}
 			
 		}
+		
     }
 	
 	function GetConfigSettings()
@@ -343,7 +346,7 @@ class plgAuthenticationAuroraSim extends JPlugin
 									 'Password' => $password));
 
 		$do_post_request = $this->do_post_request($found);
-
+		$log->lwrite($do_post_request);
 		$recieved = json_decode($do_post_request);
 
 		$UUIDC = $recieved->{'UUID'};
@@ -387,6 +390,12 @@ class plgAuthenticationAuroraSim extends JPlugin
 		}
 		$response = @stream_get_contents($fp);
 		if ($fp) fclose($fp);
+		
+		echo '<pre>';
+		var_dump($params);
+		var_dump($response);
+		echo '</pre>';
+		
 		return $response;
 	}
 }
