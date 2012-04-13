@@ -390,11 +390,6 @@ class plgAuthenticationAuroraSim extends JPlugin
 		$response = @stream_get_contents($fp);
 		if ($fp) fclose($fp);
 		
-		echo '<pre>';
-		var_dump($params);
-		var_dump($response);
-		echo '</pre>';
-		
 		return $response;
 	}
 }
