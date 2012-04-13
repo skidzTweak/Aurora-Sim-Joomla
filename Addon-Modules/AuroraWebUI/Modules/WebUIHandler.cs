@@ -29,7 +29,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using log4net;
@@ -317,16 +316,12 @@ namespace OpenSim.Services
         private static ImageCodecInfo GetEncoderInfo(String mimeType)
         {
             ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
-#if(!ISWIN)
             for (int j = 0; j < encoders.Length; ++j)
             {
                 if (encoders[j].MimeType == mimeType)
                     return encoders[j];
             }
             return null;
-#else
-            return encoders.FirstOrDefault(t => t.MimeType == mimeType);
-#endif
         }
 
         #endregion
