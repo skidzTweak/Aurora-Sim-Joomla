@@ -346,7 +346,6 @@ class plgAuthenticationAuroraSim extends JPlugin
 									 'Password' => $password));
 
 		$do_post_request = $this->do_post_request($found);
-		$log->lwrite($do_post_request);
 		$recieved = json_decode($do_post_request);
 
 		$UUIDC = $recieved->{'UUID'};
