@@ -63,7 +63,7 @@ class ModAurora_List_FriendsHelper
 
 			$returnValue = array();
 			$returnValue[0] = $items;
-			$returnValue[1] = $aconfigSettings['webui_texture_url'];
+			$returnValue[1] = $aconfig['webui_texture_url'];
 			//$returnValue[0] = $count;
 			//$returnValue[1] = $AStart;
 			//$returnValue[2] = $ALimit;
