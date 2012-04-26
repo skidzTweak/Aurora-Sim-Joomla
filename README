@@ -22,6 +22,10 @@ plgUserAurora
 	joomla site the aurora user will not be activated until doing so.
 mod_aurora_list_regions
 	This module creates a nice list to display all the regions on a grid.
+mod_aurora_list_friends
+	This module give a quick display of a logged in user's friends list with online and offline
+	status and profile images. This module is a sidebar module and would be a good module to 
+	display on every page.
 mod_stardust
 	This module will display the currency history of the current user. It requires stardust to 
 	be present on your Aurora-Sim instance.
@@ -32,7 +36,6 @@ mod_stardust_purchase
 	This module allows the purchase of stardust currency in the grid. After the purchase inworld, 
 	they are directed to a page to complete the transaction. Thats what this module does. It 
 	requires stardust to be present on your Aurora-Sim instance.
-
 	
 How to install main components:
 
@@ -59,6 +62,9 @@ How to install main components:
 21. Go to “Extension/Modules”
 22. Located the module “Aurora List Regions”
 23. Enable it, and set the “Menu Assignment” to “Select Menu Item(s) from the List” and choose the menu item you just added pointing to the page. This will make this module show up on this page. If you find this part confusing just know you can chagne it later if you don’t like the way you set it up the first time.
+24. under the section “Install from Directory” add the folder name mod_aurora_list_friends
+25. Go to “Extension/Modules”
+26. Enable it, and set the options as needed. You can leave it on for non logged in users as well. 
 
 
 How to install Stardust components:
