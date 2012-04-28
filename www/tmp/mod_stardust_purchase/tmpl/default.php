@@ -44,7 +44,7 @@ $live_site = JURI::root();
 					</tr>
 					<tr>
 						<td colspan="2">
-							<a href="<?=$live_site?>send_to_paypal.php"><img align="right" style="float:right" src="<?=$live_site?>modules/mod_stardust_purchase/images/paypal-purchase-button.png" /></a>
+							<a href="send_to_paypal.php"><img align="right" style="float:right" src="modules/mod_stardust_purchase/images/paypal-purchase-button.png" /></a>
 						</td>
 					</tr>
 					
