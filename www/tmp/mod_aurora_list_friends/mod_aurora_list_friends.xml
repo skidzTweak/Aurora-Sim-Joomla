@@ -39,6 +39,7 @@
 	<languages>
         <!-- Any language files included with the module -->
 		<language tag="en-GB">en-GB.mod_aurora_list_friends.ini</language>
+		<language tag="fr-FR">fr-FR.mod_aurora_list_friends.ini</language>
     </languages>
  
     <!-- Optional parameters -->

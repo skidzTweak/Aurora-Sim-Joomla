@@ -30,7 +30,7 @@
 			return $childs; 
 		} 
 		
-		echo "<div id=\"friendlist\" style=\"height:300px;overflow:scroll;overflow-x: hidden; \"><table>";
+		echo "<div id=\"friendlist\" style=\"height:300px;overflow:scroll;overflow-x:hidden;overflow-y:auto; \"><table>";
 		$section = "-1";
 		foreach ($items as $item) 
 		{

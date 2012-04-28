@@ -47,6 +47,23 @@ $live_site = JURI::root();
 							<a href="<?=$live_site?>send_to_paypal.php"><img align="right" style="float:right" src="<?=$live_site?>modules/mod_stardust_purchase/images/paypal-purchase-button.png" /></a>
 						</td>
 					</tr>
+					
+					<tr>
+						<td colspan="2"><h2><?php echo JText::_('FAQ'); ?></h2></td>
+					</tr>
+					<tr class="odd">
+						<td colspan="2"><?php echo JText::_('FAQ-Q1'); ?></td>
+					</tr>
+					<tr class="even">
+						<td colspan="2"><?php echo JText::_('FAQ-A1'); ?></td>
+					</tr>
+					<tr class="odd">
+						<td colspan="2"><?php echo JText::_('FAQ-Q2'); ?> <?=($AmountAdditionPerfectage * 100)?>?</td>
+					</tr>
+					<tr class="even">
+						<td colspan="2"><?php echo JText::_('FAQ-A2'); ?></td>
+					</tr>
+					
 				</table>				
 			</td>
 		</tr>

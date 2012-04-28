@@ -37,47 +37,47 @@ if(defined('_JEXEC')){
 				<table>
 					<tr>
 						<td>
-							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=<?=$ALimit?>" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=<?=$ALimit?>" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_BACK_BEGIN'); ?>">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_back_more_<? if(0 > ($AStart - $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=curPageURL2()?>&AStart=<? if(0 > ($AStart - $ALimit)) echo 0; else echo $AStart - $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=<? if(0 > ($AStart - $ALimit)) echo 0; else echo $AStart - $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_BACK_PAGE'); ?>">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_back_one_<? if(0 > ($AStart - $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td>
-						  	<? echo $webui_navigation_page; ?> <?=$sitestart ?> <?php echo JText::_('Of'); ?> <?=$sitemax ?>
+						  	<?php echo JText::_('NAVIGATION_PAGE'); ?> <?=$sitestart ?> <?php echo JText::_('NAVIGATION_OF'); ?> <?=$sitemax ?>
 						</td>
 						<td>
-							<a href="<?=curPageURL2()?>&AStart=<? if($count <= ($AStart + $ALimit)) echo 0; else echo $AStart + $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=<? if($count <= ($AStart + $ALimit)) echo 0; else echo $AStart + $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_FORWARD_PAGE'); ?>">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_forward_one_<? if($count <= ($AStart + $ALimit)) echo off; else echo on ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=curPageURL2()?>&AStart=<? if(0 > ($count <= ($AStart + $ALimit))) echo 0; else echo ($sitemax - 1) * $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self">
+							<a href="<?=curPageURL2()?>&AStart=<? if(0 > ($count <= ($AStart + $ALimit))) echo 0; else echo ($sitemax - 1) * $ALimit; ?>&amp;ALimit=<?=$ALimit?>" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_LAST_PAGE'); ?>">
 								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/icon_forward_more_<? if($count <= ($AStart + $ALimit)) echo "off"; else echo "on" ?>.gif" WIDTH=15 HEIGHT=15 border="0" />
 							</a>
 						</td>
 						<td></td>
 						<td>
-							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=10&amp;" target="_self">
-								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 10) echo icon_limit_10_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 10" />
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=10&amp;" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW10'); ?>">
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 10) echo icon_limit_10_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 10" ALT="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW10'); ?>" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=25&amp;" target="_self">
-								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 25) echo icon_limit_25_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 25" />
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=25&amp;" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW25'); ?>">
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 25) echo icon_limit_25_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 25" ALT="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW25'); ?>" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=50&amp;" target="_self">
-								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 50) echo icon_limit_50_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 50" />
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=50&amp;" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW50'); ?>">
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 50) echo icon_limit_50_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 50" ALT="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW50'); ?>" />
 							</a>
 						</td>
 						<td>
-							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=100&amp;" target="_self">
-								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 100) echo icon_limit_100_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 100" />
+							<a href="<?=curPageURL2()?>&AStart=0&amp;ALimit=100&amp;" target="_self" title="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW100'); ?>">
+								<img SRC="<?=$live_site?>modules/mod_aurora_list_regions/icons/<? if($ALimit != 100) echo icon_limit_100_on; else echo icon_limit_off; ?>.gif" WIDTH=15 HEIGHT=15 border="0" ALT="Limit 100" ALT="<?php echo JText::_('PAGINATION_TOOLTIPS_SHOW100'); ?>" />
 							</a>
 						</td>
 					</tr>
@@ -90,22 +90,22 @@ if(defined('_JEXEC')){
 		<thead>
 			<tr>
 				<td width="15%">
-					From
+					<?php echo JText::_('NAVIGATION_FROM'); ?>
 				</td>
 				<td width="15%">
-					To
+					<?php echo JText::_('NAVIGATION_TO'); ?>
 				</td>
 				<td width="25%">
-					Region
+					<?php echo JText::_('NAVIGATION_REGION'); ?>
 				</td>
 				<td width="15%">
-					Amount
+					<?php echo JText::_('NAVIGATION_AMOUNT'); ?>
 				</td>
 				<td width="15%">
-					Date
+					<?php echo JText::_('NAVIGATION_DATE'); ?>
 				</td>
 				<td width="15%">
-					Balance
+					<?php echo JText::_('NAVIGATION_BALANCE'); ?>
 				</td>
 			</tr>
 		</thead>
