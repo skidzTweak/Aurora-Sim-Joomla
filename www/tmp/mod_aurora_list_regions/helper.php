@@ -45,7 +45,7 @@ class ModAurora_List_RegionsHelper
 			$option['user']     = $aconfig['aurora_database_user'];
 			$option['password'] = $aconfig['aurora_database_pass'];
 			
-			$query = "SELECT g.RegionName,g.LocX,g.LocY,g.OwnerUUID,g.Info,g.RegionUUID,u.FirstName,u.LastName FROM gridregions as g INNER JOIN useraccounts as u on u.PrincipalID = g.OwnerUUID ".$ORDERBY." ".$Limit;
+			$query = "SELECT g.RegionName,g.LocX,g.LocY,g.OwnerUUID,g.Info,g.RegionUUID,u.FirstName,u.LastName FROM gridregions as g LEFT JOIN useraccounts as u on u.PrincipalID = g.OwnerUUID ".$ORDERBY." ".$Limit;
 			$db = &JDatabase::getInstance( $option );
 			$db->setQuery( $query );
 			$items = ($items = $db->loadAssocList())?$items:array();
