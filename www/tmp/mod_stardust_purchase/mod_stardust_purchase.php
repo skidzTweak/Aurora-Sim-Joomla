@@ -53,7 +53,7 @@ if ($tx_token != "")
 else
 {
 	if ($user->guest) {
-		$loginURL = '/index.php?option=com_user&view=login';
+		$loginURL = 'index.php?option=com_user&view=login';
 		$myurl = $_SERVER['REQUEST_URI'];
 		$myurl = base64_encode($myurl);
 		$myurl = '&return='.$myurl;
