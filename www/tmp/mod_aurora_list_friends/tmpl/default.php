@@ -35,9 +35,18 @@
 		foreach ($items as $item) 
 		{
 			
-			$xmlResult = new SimpleXMLElement($item["Value"]);
-			$vals = array(); 
-			RecurseXML($xmlResult,$vals);
+			try
+			{
+				$temp_value = preg_replace('/[^(\x20-\x7F)]*/','', $item["Value"]);
+				$xmlResult = new SimpleXMLElement($temp_value);
+				$vals = array(); 
+				RecurseXML($xmlResult,$vals);
+			}
+			catch (Exception $e)
+			{
+				$vals = array(); 
+				$vals["Image"] = "00000000-0000-0000-0000-000000000000";
+			}
 		
 		?>
 			<?if ($section != $item["IsOnline"]) { ?>
