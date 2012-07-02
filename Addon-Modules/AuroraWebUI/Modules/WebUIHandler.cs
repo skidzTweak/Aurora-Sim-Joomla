@@ -383,7 +383,7 @@ namespace OpenSim.Services
         #endregion
     }
 
-    public class WireduxHTTPHandler : BaseStreamHandler
+    public class WireduxHTTPHandler : BaseRequestHandler
     {
         private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
