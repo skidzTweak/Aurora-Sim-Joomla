@@ -263,7 +263,7 @@ namespace OpenSim.Services
                     return (Bitmap)Image.FromFile(fileName);
             }
 
-            List<GridRegion> regions = m_registry.RequestModuleInterface<IGridService>().GetRegionRange(UUID.Zero,
+            List<GridRegion> regions = m_registry.RequestModuleInterface<IGridService>().GetRegionRange(new List<UUID> { UUID.Zero },
                     centerX * Constants.RegionSize - (zoomLevel * Constants.RegionSize),
                     centerX * Constants.RegionSize + (zoomLevel * Constants.RegionSize),
                     centerY * Constants.RegionSize - (zoomLevel * Constants.RegionSize),
@@ -331,7 +331,7 @@ namespace OpenSim.Services
         private void PromoteUser(string[] cmd)
         {
             string name = MainConsole.Instance.Prompt("Name of user");
-            UserAccount acc = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, name);
+            UserAccount acc = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID> { UUID.Zero }, name);
             if (acc == null)
             {
                 m_log.Warn("You must create the user before promoting them.");
@@ -357,7 +357,7 @@ namespace OpenSim.Services
         private void DemoteUser(string[] cmd)
         {
             string name = MainConsole.Instance.Prompt("Name of user");
-            UserAccount acc = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, name);
+            UserAccount acc = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID> { UUID.Zero }, name);
             if (acc == null)
             {
                 m_log.Warn("User does not exist, no action taken.");
@@ -500,7 +500,7 @@ namespace OpenSim.Services
         private OSDMap CheckIfUserExists(OSDMap map)
         {
             IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
-            UserAccount user = accountService.GetUserAccount(UUID.Zero, map["Name"].AsString());
+            UserAccount user = accountService.GetUserAccount(new List<UUID> { UUID.Zero }, map["Name"].AsString());
 
             bool Verified = user != null;
             OSDMap resp = new OSDMap();
@@ -532,12 +532,12 @@ namespace OpenSim.Services
             PasswordHash = PasswordHash.Remove(0, 3); //remove $1$
 
             accountService.CreateUser(Name, PasswordHash, Email);
-            UserAccount user = accountService.GetUserAccount(UUID.Zero, Name);
+            UserAccount user = accountService.GetUserAccount(new List<UUID> { UUID.Zero }, Name);
             IAgentInfoService agentInfoService = m_registry.RequestModuleInterface<IAgentInfoService>();
             IGridService gridService = m_registry.RequestModuleInterface<IGridService>();
             if (agentInfoService != null && gridService != null)
             {
-                GridRegion r = gridService.GetRegionByName(UUID.Zero, HomeRegion);
+                GridRegion r = gridService.GetRegionByName(new List<UUID> { UUID.Zero }, HomeRegion);
                 if (r != null)
                 {
                     agentInfoService.SetHomePosition(user.PrincipalID.ToString(), r.RegionID, new Vector3(r.RegionSizeX / 2, r.RegionSizeY / 2, 20), Vector3.Zero);
@@ -635,7 +635,7 @@ namespace OpenSim.Services
         private OSDMap Authenticated(OSDMap map)
         {
             IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
-            UserAccount user = accountService.GetUserAccount(UUID.Zero, map["UUID"].AsUUID());
+            UserAccount user = accountService.GetUserAccount(new List<UUID>{UUID.Zero}, map["UUID"].AsUUID());
 
             bool Verified = user != null;
             OSDMap resp = new OSDMap();
@@ -665,7 +665,7 @@ namespace OpenSim.Services
             if (map.ContainsKey("UserName") && map.ContainsKey("PasswordHash") && map.ContainsKey("ActivationToken"))
             {
                 IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
-                UserAccount user = accountService.GetUserAccount(UUID.Zero, map["UserName"].ToString());
+                UserAccount user = accountService.GetUserAccount(new List<UUID>{UUID.Zero}, map["UserName"].ToString());
                 if (user != null)
                 {
                     IAgentConnector con = DataManager.RequestPlugin<IAgentConnector>();
@@ -718,10 +718,10 @@ namespace OpenSim.Services
                 return resp;
             }
 
-            account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, Name);
+            account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID>{UUID.Zero}, Name);
 
             //Null means it went through without an errorz
-            if (loginService.VerifyClient(account.PrincipalID, Name, "UserAccount", Password, account.ScopeID))
+            if (loginService.VerifyClient(account.PrincipalID, Name, "UserAccount", Password))
             {
                 if (asAdmin)
                 {
@@ -775,7 +775,7 @@ namespace OpenSim.Services
             string email = map["Email"].AsString();
 
             IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
-            UserAccount user = accountService.GetUserAccount(UUID.Zero, map["UUID"].AsUUID());
+            UserAccount user = accountService.GetUserAccount(new List<UUID>{UUID.Zero}, map["UUID"].AsUUID());
             OSDMap resp = new OSDMap();
 
             bool verified = user != null;
@@ -797,7 +797,7 @@ namespace OpenSim.Services
 
             OSDMap resp = new OSDMap();
             IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
-            UserAccount user = accountService.GetUserAccount(UUID.Zero, Name);
+            UserAccount user = accountService.GetUserAccount(new List<UUID>{UUID.Zero}, Name);
             bool verified = user != null;
             resp["Verified"] = OSD.FromBoolean(verified);
 
@@ -843,14 +843,14 @@ namespace OpenSim.Services
 
 
 
-            UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, userID);
+            UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID>{UUID.Zero}, userID);
 
 
             IAuthenticationService auths = m_registry.RequestModuleInterface<IAuthenticationService>();
 
             OSDMap resp = new OSDMap();
             //Null means it went through without an error
-            bool Verified = loginService.VerifyClient(account.PrincipalID, account.Name, "UserAccount", Password, account.ScopeID);
+            bool Verified = loginService.VerifyClient(account.PrincipalID, account.Name, "UserAccount", Password);
             resp["Verified"] = OSD.FromBoolean(Verified);
 
             if ((auths.Authenticate(userID, "UserAccount", Util.Md5Hash(Password), 100) != string.Empty) && (Verified))
@@ -867,7 +867,7 @@ namespace OpenSim.Services
             string Password = map["Password"].AsString();
 
             IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
-            UserAccount user = accountService.GetUserAccount(UUID.Zero, UUDI);
+            UserAccount user = accountService.GetUserAccount(new List<UUID>{UUID.Zero}, UUDI);
 
             OSDMap resp = new OSDMap();
             bool verified = user != null;
@@ -900,7 +900,7 @@ namespace OpenSim.Services
         private OSDMap ChangeName(OSDMap map)
         {
             IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
-            UserAccount user = accountService.GetUserAccount(UUID.Zero, map["UUID"].AsUUID());
+            UserAccount user = accountService.GetUserAccount(new List<UUID>{UUID.Zero}, map["UUID"].AsUUID());
             OSDMap resp = new OSDMap();
 
             bool verified = user != null;
@@ -921,11 +921,11 @@ namespace OpenSim.Services
             resp["agent"] = OSD.FromBoolean(!editRLInfo); // if we have no RLInfo, editing account is assumed to be successful.
             resp["account"] = OSD.FromBoolean(false);
             UUID principalID = map["UserID"].AsUUID();
-            UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, principalID);
+            UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID>{UUID.Zero}, principalID);
             if (account != null)
             {
                 account.Email = map["Email"];
-                if (m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, map["Name"].AsString()) == null)
+                if (m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID>{UUID.Zero}, map["Name"].AsString()) == null)
                 {
                     account.Name = map["Name"];
                 }
@@ -970,7 +970,7 @@ namespace OpenSim.Services
             uuid = map["UUID"].AsString();
 
             IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService>();
-            UserAccount user = accountService.GetUserAccount(UUID.Zero, map["UUID"].AsUUID());
+            UserAccount user = accountService.GetUserAccount(new List<UUID>{UUID.Zero}, map["UUID"].AsUUID());
             IAgentInfoService agentService = m_registry.RequestModuleInterface<IAgentInfoService>();
 
             OSDMap resp = new OSDMap();
@@ -983,7 +983,7 @@ namespace OpenSim.Services
                 GridRegion gr = null;
                 if (userinfo != null)
                 {
-                    gr = gs.GetRegionByUUID(UUID.Zero, userinfo.HomeRegionID);
+                    gr = gs.GetRegionByUUID(new List<UUID>{UUID.Zero}, userinfo.HomeRegionID);
                 }
 
                 resp["UUID"] = OSD.FromUUID(user.PrincipalID);
@@ -1006,8 +1006,8 @@ namespace OpenSim.Services
             UUID userID = map["UUID"].AsUUID();
 
             UserAccount account = Name != "" ?
-                m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, Name) :
-                 m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, userID);
+                m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID>{UUID.Zero}, Name) :
+                 m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID>{UUID.Zero}, userID);
             if (account != null)
             {
                 OSDMap accountMap = new OSDMap();
@@ -1036,7 +1036,7 @@ namespace OpenSim.Services
 
                     accountMap["AccountInfo"] = (profile.CustomType != "" ? profile.CustomType :
                         account.UserFlags == 0 ? "Resident" : "Admin") + "\n" + flags;
-                    UserAccount partnerAccount = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, profile.Partner);
+                    UserAccount partnerAccount = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID>{UUID.Zero}, profile.Partner);
                     if (partnerAccount != null)
                     {
                         accountMap["Partner"] = partnerAccount.Name;
@@ -1151,7 +1151,7 @@ namespace OpenSim.Services
             int start = map["Start"].AsInteger();
             int end = map["End"].AsInteger();
             string Query = map["Query"].AsString();
-            List<UserAccount> accounts = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccounts(UUID.Zero, Query);
+            List<UserAccount> accounts = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccounts(new List<UUID>{UUID.Zero}, Query);
 
             OSDArray users = new OSDArray();
             m_log.TraceFormat("{0} accounts found", accounts.Count);
@@ -1196,7 +1196,7 @@ namespace OpenSim.Services
             OSDArray friends = new OSDArray(friendsList.Count);
             foreach (FriendInfo friendInfo in friendsList)
             {
-                UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(UUID.Zero, UUID.Parse(friendInfo.Friend));
+                UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID> { UUID.Zero }, UUID.Parse(friendInfo.Friend));
                 OSDMap friend = new OSDMap(4);
                 friend["PrincipalID"] = friendInfo.Friend;
                 friend["Name"] = account.Name;
@@ -1347,11 +1347,11 @@ namespace OpenSim.Services
                 GridRegion region = null;
                 if (regionID != UUID.Zero)
                 {
-                    region = regiondata.Get(regionID, scopeID);
+                    region = regiondata.Get(regionID, new List<UUID> { scopeID });
                 }
                 else if (regionName != string.Empty)
                 {
-                    region = regiondata.Get(regionName, scopeID)[0];
+                    region = regiondata.Get(regionName, new List<UUID> { scopeID }, 0, 0)[0];
                 }
                 if (region != null)
                 {
@@ -1390,7 +1390,7 @@ namespace OpenSim.Services
                 uint count = map.ContainsKey("Count") ? uint.Parse(map["Count"].ToString()) : 10;
                 ParcelFlags flags = map.ContainsKey("Flags") ? (ParcelFlags)int.Parse(map["Flags"].ToString()) : ParcelFlags.None;
                 ParcelCategory category = map.ContainsKey("Category") ? (ParcelCategory)uint.Parse(map["Flags"].ToString()) : ParcelCategory.Any;
-                uint total = directory.GetNumberOfParcelsByRegion(RegionID, ScopeID, owner, flags, category);
+                uint total = directory.GetNumberOfParcelsByRegion(RegionID, owner, flags, category);
                 if (total > 0)
                 {
                     resp["Total"] = OSD.FromInteger((int)total);
@@ -1398,7 +1398,7 @@ namespace OpenSim.Services
                     {
                         return resp;
                     }
-                    List<LandData> parcels = directory.GetParcelsByRegion(start, count, RegionID, ScopeID, owner, flags, category);
+                    List<LandData> parcels = directory.GetParcelsByRegion(start, count, RegionID, owner, flags, category);
                     OSDArray Parcels = new OSDArray(parcels.Count);
 #if(!ISWIN)
                     parcels.ForEach(delegate(LandData parcel)
@@ -1436,7 +1436,7 @@ namespace OpenSim.Services
                 }
                 else if (regionID != UUID.Zero && parcelName != string.Empty)
                 {
-                    parcel = directory.GetParcelInfo(regionID, scopeID, parcelName);
+                    parcel = directory.GetParcelInfo(regionID, parcelName);
                 }
 
                 if (parcel != null)
