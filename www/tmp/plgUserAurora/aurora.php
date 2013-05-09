@@ -211,7 +211,7 @@ class plgUserAurora extends JPlugin {
 		if ($result) 
 		{
 			$found = array();
-			$found[0] = json_encode(array('Method' => 'Authenticated', 'WebPassword' => md5($aconfig['webui_password']), 'UUID' => $result, 'value' => $value));
+			$found[0] = json_encode(array('Method' => 'Authenticated', 'WebPassword' => md5($aconfig['webui_password']), 'UUID' => $result, 'Verified' => $value));
 			
 			$do_post_requested = $this->do_post_request($found);
 			$recieved = json_decode($do_post_requested);
