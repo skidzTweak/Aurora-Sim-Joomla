@@ -124,7 +124,7 @@ class ModStarDust_LandHelper
 		$option['password'] = $aconfig['aurora_database_pass'];
 		$db = &JDatabase::getInstance( $option );
 
-		$sql = "SELECT `id`, `name`, `sizeof`, `prims`, `users`, `description`, `price`, `active` FROM `stardust_subscriptions` WHERE `active` = 1";
+		$sql = "SELECT `id`, `name`, `description`, `price`, `active` FROM `stardust_subscriptions` WHERE `active` = 1";
 		$db->setQuery( $sql );
 		$items = ($items = $db->loadAssocList())?$items:array();
 		$returnValue = array();
@@ -168,8 +168,8 @@ class ModStarDust_LandHelper
 	
 	function GetConfigSettings()
 	{	
-		$aconfigSettings = array();
-		$configCount = count($configSettings);
+		@$aconfigSettings = array();
+		$configCount = count($aconfigSettings);
 		if ($configCount == 0)
 		{
 			$db =& JFactory::getDBO();

@@ -10,6 +10,7 @@ $DO_NOTIFICATION = $params->get('DO_NOTIFICATION');
 $NOTIFICATION_EMAIL = $params->get('NOTIFICATION_EMAIL');
 $STARDUST_SERVICE_URL = $params->get('STARDUST_SERVICE_URL');
 $HOW_TO_BUY_LINK = $params->get('HOWTOBUY_DOC_LINK');
+$DO_REDIRECT = $params->get('DO_REDIRECT');
 
 if (count($_POST) >= 1)
 {
@@ -52,7 +53,7 @@ if ($tx_token != "")
 else
 {
 	if ($user->guest) {
-		$loginURL = '/index.php?option=com_user&view=login';
+		$loginURL = 'index.php?option=com_user&view=login';
 		$myurl = $_SERVER['REQUEST_URI'];
 		$myurl = base64_encode($myurl);
 		$myurl = '&return='.$myurl;
@@ -99,7 +100,11 @@ else
 		}
 		else
 		{
-			header("Location: ".$HOW_TO_BUY_LINK);
+		
+			if ($DO_REDIRECT == "1")
+				header("Location: ".$HOW_TO_BUY_LINK);
+			else
+				require(JModuleHelper::getLayoutPath('mod_stardust_purchase'));
 		}
 	}	
 }

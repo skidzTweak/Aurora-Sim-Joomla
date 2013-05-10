@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); // no direct access ?>
-<?
+<?php
 function curPageURL() {
 	$pageURL = 'http';
 	if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
@@ -21,17 +21,18 @@ if(defined('_JEXEC')){
    $live_site = $mosConfig_live_site;
 }
 ?>
-<table cellpadding="8" cellspacing="8">
+<table class="moduletable">
 	<tr>
 		<td>
-			<? 
+			<?php
 			if (empty($submitted))
 			{
 				foreach ($items as $item) {?>
 					<form action="<?=curPageURL()?>" method="post">
-						<div style=" width:85%; border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px; border-bottom-left-radius: 10px 10px; border-bottom-right-radius: 10px 10px; background-color: rgb(0, 0, 0);padding:10px 10px 10px 10px; ">
-							<h3>Name: <?=$item['name'] ?></h3> 
-							<p><img align="right" src="<?=$live_site?>modules/mod_stardust_land/images/SimImageStub.jpg" /><?=$item['description']?></p>
+						<div class="module">
+							<h3><?php echo JText::_('NAME'); ?>: <?=$item['name'] ?></h3> 
+							<img align="center" src="<?=$live_site?>modules/mod_stardust_land/images/SimImageStub.jpg" />
+							<p><?=$item['description']?></p>
 							<input type="hidden" name="idx" value="<?=$item['id']?>" />
 							<input type="hidden" name="button_id" value="<?=$item['button_id']?>" />
 							<input type="Submit" name="submit" value="Get It for only <?=$item['price'] / 100.0 ?>" />
@@ -55,7 +56,7 @@ if(defined('_JEXEC')){
 							<td  valign="top">
 								<?if ($_POST[error] != ''){?>
 									<div><?=$_POST[error]?></div>
-								<?}?>
+								<?php } ?>
 							</td>
 						</tr>						
 						<tr>
@@ -87,7 +88,7 @@ if(defined('_JEXEC')){
 						</tr>
 					</table>
 				</form>
-			<?}?>
+			<?php } ?>
 		</td>
 	</tr>
 </table>

@@ -39,6 +39,7 @@
 	<languages>
         <!-- Any language files included with the module -->
         <language tag="en-GB">en-GB.mod_stardust.ini</language>
+		<language tag="fr-FR">fr-FR.mod_stardust.ini</language>
     </languages>
  
     <!-- Optional parameters -->

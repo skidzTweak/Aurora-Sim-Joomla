@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>robert.skidmore@newworldz.com</authorEmail>
 	<authorUrl>NewWorldz.com</authorUrl>
-	<version>1.5.1</version>
+	<version>1.5.2</version>
 	<description>An aurora user synchronisation plugin</description>
 	<files>
 		<filename plugin="aurora">aurora.php</filename>

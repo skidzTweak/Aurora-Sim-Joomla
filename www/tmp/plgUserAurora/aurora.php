@@ -123,11 +123,11 @@ class plgUserAurora extends JPlugin {
 				$useractivation = $usersParams->get( 'useractivation' ); // in this example, we load the config-setting
 				if ($useractivation == 1)
 				{
-					if (($user["block"] == 0) && ($this->currentUser["block"] == 1))
+					if ($user["block"] == 0)
 					{
 						$this->ChangeActivation($user, 0);
 					}
-					else if (($user["block"] == 1) && ($this->currentUser["block"] == 0))
+					else if ($user["block"] == 1)
 					{
 						$this->ChangeActivation($user, -1);
 					}
@@ -185,12 +185,6 @@ class plgUserAurora extends JPlugin {
 			$this->configSettings['webui_password'] = $results['3'];
 			$this->configSettings['isdefault'] = $results['4'];
 		}
-		
-		// echo '<pre>';
-		// var_dump($this->configSettings);
-		// var_dump($results);
-		// echo '</pre>';
-		// throw new Exception("Problem with nothing.. just testing");
 
 		return $this->configSettings;
 	}
@@ -199,7 +193,7 @@ class plgUserAurora extends JPlugin {
 	{
 		$aconfig = $this->GetConfigSettings();
 		$found = array();
-		$found[0] = json_encode(array('Method' => 'ChangePassword2', 'WebPassword' => md5($aconfig['webui_password']), 'UUID' => $uuid, 'Password' => $password));
+		$found[0] = json_encode(array('Method' => 'ForgotPassword', 'WebPassword' => md5($aconfig['webui_password']), 'UUID' => $uuid, 'Password' => $password));
 		$do_post_requested = $this->do_post_request($found);
 		$recieved = json_decode($do_post_requested);
 		$returnValue = $recieved->{'Verified'} == 1;
@@ -217,7 +211,7 @@ class plgUserAurora extends JPlugin {
 		if ($result) 
 		{
 			$found = array();
-			$found[0] = json_encode(array('Method' => 'Authenticated', 'WebPassword' => md5($aconfig['webui_password']), 'UUID' => $result, 'value' => $value));
+			$found[0] = json_encode(array('Method' => 'Authenticated', 'WebPassword' => md5($aconfig['webui_password']), 'UUID' => $result, 'Verified' => $value));
 			
 			$do_post_requested = $this->do_post_request($found);
 			$recieved = json_decode($do_post_requested);
@@ -368,3 +362,4 @@ class plgUserAurora extends JPlugin {
 		return $response;
 	}
 }
+?>

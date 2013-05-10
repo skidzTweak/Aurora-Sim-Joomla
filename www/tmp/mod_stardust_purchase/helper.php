@@ -22,21 +22,16 @@ class ModStarDust_PurchaseHelper
 		$do_post_request = ModStarDust_PurchaseHelper::do_post_request($found, $STARDUST_SERVICE_URL);
 		$recieved = json_decode($do_post_request);
 
-		// echo '<pre>';
-		// var_dump($recieved);
-		// var_dump($do_post_requested);
-		// echo '</pre>';
-
 		if ($recieved->{'Verified'} == "True") 
 		{
 			if ($DO_NOTIFICATION == "1")
 			{
-				ModStarDust_PurchaseHelper::SendEmailIPN($recieved);
+				ModStarDust_PurchaseHelper::SendEmailIPN($NOTIFICATION_EMAIL, $req, $do_post_request);
 			}
 		}
 		else
 		{
-			ModStarDust_PurchaseHelper::SendErrorEmailIPN($recieved);
+			ModStarDust_PurchaseHelper::SendErrorEmailIPN($NOTIFICATION_EMAIL, $req, $do_post_request);
 		}
 		return $recieved;
 	}
@@ -52,113 +47,127 @@ class ModStarDust_PurchaseHelper
 		$found[0] = json_encode(array('Method' => 'Validate', 'WebPassword' => md5($aconfig['webui_password']), 'tx' => $tx));
 		$do_post_request = ModStarDust_PurchaseHelper::do_post_request($found, $STARDUST_SERVICE_URL);
 		$recieved = json_decode($do_post_request);
-
-		// echo '<pre>';
-		// var_dump($recieved);
-		// var_dump($do_post_requested);
-		// echo '</pre>';
 		
 		$isDoneAlready = ($recieved->{'CompleteType'} == "ALREADYDONE");
-		if ($recieved->{'Verified'}) 
+		if ($recieved->{'Verified'} == true) 
 		{
-			$returnValue[0] = "2";
-			$returnValue[1] = $recieved;
-			if (($DO_NOTIFICATION == "1") && (!$isDoneAlready))
+			try
 			{
-				ModStarDust_PurchaseHelper::SendEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $recieved);
+				$returnValue[0] = "2";
+				$returnValue[1] = $recieved;
+				if (($DO_NOTIFICATION == "1") && (!$isDoneAlready))
+				{
+					ModStarDust_PurchaseHelper::SendEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $do_post_request);
+				}
+			} 
+			catch (Exception $e) 
+			{
+				echo '<pre>Exception:';
+				var_dump($e);
+				echo '</pre>';
 			}
 		}
 		else
 		{
-			ModStarDust_PurchaseHelper::SendErrorEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $recieved);
+			ModStarDust_PurchaseHelper::SendErrorEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $do_post_request);
 		}
 		return $returnValue;
 	}
 	
 	function SendEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $recieved)
 	{
-		$mailer =& JFactory::getMailer();
-		$config =& JFactory::getConfig();
-		
-		$sender = array( 
-			$config->getValue( 'config.mailfrom' ),
-			$config->getValue( 'config.fromname' ) );
-		 
-		$mailer->setSender($sender);
-		$mailer->addRecipient($NOTIFICATION_EMAIL);
-		$body   = "A purchase is complete. Details:".
-			$recieved.
-			"\ntx=".$tx.
-			"\nst=".$st.
-			"\namt=".$amt.
-			"\ncc=".$cc.
-			"\ncm=".$cm.
-			"\nitem_number=".$item_number;
-		$mailer->setSubject('Stardust purchase');
-		$mailer->setBody($body);
-		$send =& $mailer->Send();
-	}
-	
-	function SendEmailIPN($recieved)
-	{
-		$mailer =& JFactory::getMailer();
-		$config =& JFactory::getConfig();
-		
-		$sender = array( 
-			$config->getValue( 'config.mailfrom' ),
-			$config->getValue( 'config.fromname' ) );
-		 
-		$mailer->setSender($sender);
-		$mailer->addRecipient($NOTIFICATION_EMAIL);
-		$body   = "A purchase is complete. Details:\n".
-			var_dump($recieved).
-			"\nPOST=".var_dump($_POST);
-		$mailer->setSubject('Stardust purchase');
-		$mailer->setBody($body);
-		$send =& $mailer->Send();
+		try
+		{
+			$mailer =& JFactory::getMailer();
+			$config =& JFactory::getConfig();
+			$sender = array( 
+				$config->getValue( 'config.mailfrom' ),
+				$config->getValue( 'config.fromname' ) );
+			$mailer->setSender($sender);
+			$mailer->addRecipient($NOTIFICATION_EMAIL);
+			$body = JText::sprintf(PURCHASE_NOTICE, $amt, $st, $cc, $cm, $tx, $recieved);
+			$mailer->setSubject('Stardust - Purchase');
+			$mailer->setBody($body);
+			$send =& $mailer->Send();
+		} 
+		catch (Exception $e) 
+		{
+			echo '<pre>Exception:';
+			var_dump($e);
+			echo '</pre>';
+		}
 	}
 	
 	function SendErrorEmail($STARDUST_SERVICE_URL, $tx, $st, $amt, $cc, $cm, $item_number, $req, $NOTIFICATION_EMAIL, $DO_NOTIFICATION, $recieved)
 	{
-		$mailer =& JFactory::getMailer();
-		$config =& JFactory::getConfig();
-		
-		$sender = array( 
-			$config->getValue( 'config.mailfrom' ),
-			$config->getValue( 'config.fromname' ) );
-		 
-		$mailer->setSender($sender);
-		$mailer->addRecipient($NOTIFICATION_EMAIL);
-		$body   = "There was an error on a currency purchase.\n".
-			var_dump($recieved).
-			"\ntx=".$tx.
-			"\nst=".$st.
-			"\namt=".$amt.
-			"\ncc=".$cc.
-			"\ncm=".$cm.
-			"\nitem_number=".$item_number;
-		$mailer->setSubject('Stardust Error purchase');
-		$mailer->setBody($body);
-		$send =& $mailer->Send();
+		try
+		{
+			$mailer =& JFactory::getMailer();
+			$config =& JFactory::getConfig();
+			
+			$sender = array( 
+				$config->getValue( 'config.mailfrom' ),
+				$config->getValue( 'config.fromname' ) );
+			 
+			$mailer->setSender($sender);
+			$mailer->addRecipient($NOTIFICATION_EMAIL);
+			$body = JText::sprintf(ERROR_EMAIL, $amt, $st, $cc, $cm, $tx, $recieved);
+			$mailer->setSubject('Stardust - Error');
+			$mailer->setBody($body);
+			$send =& $mailer->Send();
+		} catch (Exception $e) {
+			echo '<pre>Exception:';
+			var_dump($e);
+			echo '</pre>';
+		}
 	}
 	
-	function SendErrorEmailIPN($recieved)
+	function SendEmailIPN($NOTIFICATION_EMAIL, $recievedPost, $recieved)
 	{
-		$mailer =& JFactory::getMailer();
-		$config =& JFactory::getConfig();
-		
-		$sender = array( 
-			$config->getValue( 'config.mailfrom' ),
-			$config->getValue( 'config.fromname' ) );
-		 
-		$mailer->setSender($sender);
-		$mailer->addRecipient($NOTIFICATION_EMAIL);
-		$body   = "A purchase is complete. Details:\n".
-			var_dump($recieved).
-			"\nPOST=".var_dump($_POST);
-		$mailer->setSubject('Stardust IDN purchase');
-		$mailer->setBody($body);
-		$send =& $mailer->Send();
+		try
+		{
+			$mailer =& JFactory::getMailer();
+			$config =& JFactory::getConfig();
+			$sender = array( 
+				$config->getValue( 'config.mailfrom' ),
+				$config->getValue( 'config.fromname' ) );
+			$mailer->setSender($sender);
+			$mailer->addRecipient($NOTIFICATION_EMAIL);
+			$body = JText::sprintf(IPN_EMAIL, $recievedPost, $recieved);
+			$mailer->setSubject('Stardust - IPN');
+			$mailer->setBody($body);
+			$send =& $mailer->Send();
+		} 
+		catch (Exception $e) 
+		{
+			echo '<pre>Exception:';
+			var_dump($e);
+			echo '</pre>';
+		}
+	}
+	
+	function SendErrorEmailIPN($NOTIFICATION_EMAIL, $recievedPost, $recieved)
+	{
+		try
+		{
+			$mailer =& JFactory::getMailer();
+			$config =& JFactory::getConfig();
+			$sender = array( 
+				$config->getValue( 'config.mailfrom' ),
+				$config->getValue( 'config.fromname' ) );
+			$mailer->setSender($sender);
+			$mailer->addRecipient($NOTIFICATION_EMAIL);
+			$body = JText::sprintf(IPN_EMAIL_ERROR, $recievedPost, $recieved);
+			$mailer->setSubject('Stardust - IPN Error');
+			$mailer->setBody($body);
+			$send =& $mailer->Send();
+		} 
+		catch (Exception $e) 
+		{
+			echo '<pre>Exception:';
+			var_dump($e);
+			echo '</pre>';
+		}
 	}
 	
 	function getItems($user, $STARDUST_SERVICE_URL)
